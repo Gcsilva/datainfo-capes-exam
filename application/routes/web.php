@@ -24,7 +24,7 @@ Route::get('/', function () {
 Route::prefix('/cursos')->group(function () {
 
     Route::get('/', function () {
-        return 'here 123';
+        return 'here';
     })->name('cursos');
 
 });

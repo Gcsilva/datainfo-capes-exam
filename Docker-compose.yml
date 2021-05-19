@@ -6,18 +6,32 @@ services:
     image: gcsilva/ubuntu20.04-php8.0.3
     ports: 
       - 8081:80
-    #tty: true 
     volumes: 
       - ./application:/var/www/html
     depends_on: 
-      - db 
+      - db
+      - nodejs
       
   db: 
     container_name: mysql8_capes
-    image: mysql:8.0.23
+    image: mysql:8.0.24
     ports: 
       - 3307:3306
-    command: --default-authentication-plugin=mysql_native_password 
+    command: --default-authentication-plugin=mysql_native_password
     restart: always 
     environment: 
       MYSQL_ROOT_PASSWORD: root 
+
+  nodejs:
+    container_name: node_capes
+    build:
+      context: ./
+      dockerfile: Dockerfile-nodejs
+    image: nodejs
+    user: "node"
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - ./application:/home/node/app
+    command: npm install
+    
